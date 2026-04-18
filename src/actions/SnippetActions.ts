@@ -5,7 +5,7 @@ import { SearchFilter } from '@/types/searchAndFilter/SearchFilter.types';
 import { Page } from '@/types/snippet/page.types';
 import { Snippet } from '@/types/snippet/snippet.types';
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const BASE_URL = process.env.BACKEND_URL;
 
 async function getAuthToken() {
   return (await cookies()).get('token')?.value;
@@ -33,7 +33,20 @@ export const getAllSnippets = async (
     cache: 'no-store',
   });
 
-  if (!response.ok) throw new Error('Failed to fetch snippets');
+  if (!response.ok) {
+    console.error('Fetch failed with status:', response.status);
+
+    // Return a valid Page object that matches your TypeScript interface
+    return {
+      content: [],
+      totalElements: 0,
+      totalPages: 0,
+      size: 10, // Match your default page size
+      number: 0,
+      first: true, // Since it's empty, it's technically the first page
+      last: true, // and the last page
+    };
+  }
   return response.json();
 };
 

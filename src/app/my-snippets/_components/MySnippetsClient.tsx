@@ -15,6 +15,7 @@ import NoSnippetsFound from './NoSnippetsFound';
 import SnippetPreviewSection from './SnippetPreviewSection';
 import { getAllSnippets } from '@/actions/SnippetActions';
 import UserAndFilterPanel from './UserAndFilterPanel/UserAndFilterPanel';
+import Loader from '@/components/loader/Loader';
 
 const MySnippetsClient = ({
   initialFilters,
@@ -27,8 +28,10 @@ const MySnippetsClient = ({
     queryKey: ['snippets', initialFilters],
     queryFn: () => getAllSnippets(initialFilters),
     initialData: undefined,
+    staleTime: 1000 * 60,
   });
 
+  if (!data) <Loader />;
   const selectedSnippet = data?.content.find((s) => s.id === selectedId);
   return (
     <div className='h-[calc(100dvh-6rem)] hidden lg:block bg-slate-50/50 dark:bg-zinc-950/50 backdrop-blur-md'>

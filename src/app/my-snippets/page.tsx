@@ -28,6 +28,7 @@ const MySnippetsPage = async ({
     queryKey: ['snippets', filters],
     queryFn: () => getAllSnippets(filters),
   });
+
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <MySnippetsClient initialFilters={filters} />
