@@ -1,6 +1,0 @@
-ignoredBuiltDependencies:
-  - sharp
-  - unrs-resolver
-
-onlyBuiltDependencies:
-  - msw@2.13.3(@types/node@20.19.39)(typescript@5.9.3)
