@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: '://cloudinary.com',
+        pathname: '/**',
       },
     ],
   },
