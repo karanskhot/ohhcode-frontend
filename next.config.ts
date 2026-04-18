@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
         // Jab bhi frontend /api/v1/... call karega
         source: '/api/v1/:path*',
         // Toh Vercel usey chupke se Railway pe bhej dega
-        destination: 'https://railway.app*',
+        destination: 'https://ohhcode.up.railway.app*',
       },
     ];
   },
