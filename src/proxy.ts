@@ -5,31 +5,47 @@ const proxy = (request: NextRequest) => {
   const pathName = request.nextUrl.pathname;
 
   // --- 1. API PROXY LOGIC ---
-  // If the request starts with /api, send it to Spring Boot
   if (pathName.startsWith('/api')) {
-    const backendUrl = process.env.BACKEND_URL || 'http://localhost:8080';
-    const targetUrl = new URL(
-      request.nextUrl.pathname + request.nextUrl.search,
-      backendUrl,
-    );
+    let backendUrl = process.env.BACKEND_URL || 'http://localhost:8080';
 
-    return NextResponse.rewrite(targetUrl);
+    // Defensive check: Ensure backendUrl starts with http (Crucial for Railway)
+    if (!backendUrl.startsWith('http')) {
+      backendUrl = `http://${backendUrl}`;
+    }
+
+    try {
+      const targetUrl = new URL(
+        request.nextUrl.pathname + request.nextUrl.search,
+        backendUrl,
+      );
+      return NextResponse.rewrite(targetUrl);
+    } catch (e) {
+      console.error('Invalid Backend URL:', backendUrl);
+      return NextResponse.json(
+        { error: 'Internal Server Error' },
+        { status: 500 },
+      );
+    }
   }
 
-  // --- 2. AUTH REDIRECT LOGIC (Your existing code) ---
+  // --- 2. AUTH REDIRECT LOGIC ---
   const isAuthRoute = pathName.startsWith('/get-started');
   const isHomeRoute = pathName === '/';
 
-  if (!token && !isAuthRoute && !isHomeRoute)
+  // If no token and not on an auth/home page, go to get-started
+  if (!token && !isAuthRoute && !isHomeRoute) {
     return NextResponse.redirect(new URL('/get-started', request.url));
+  }
 
-  if (token && (isAuthRoute || isHomeRoute))
+  // If logged in and trying to go to login/home, go to snippets
+  if (token && (isAuthRoute || isHomeRoute)) {
     return NextResponse.redirect(new URL('/my-snippets', request.url));
+  }
 };
 
 export const config = {
   matcher: [
-    // Remove 'api' from the negative lookahead so the proxy can handle /api routes
+    // Match everything EXCEPT static assets
     '/((?!_next/static|_next/image|favicon.ico).*)',
   ],
 };

@@ -5,6 +5,8 @@ import Navbar from '@/components/navbar/Navbar';
 import { ThemeProvider } from '@/providers/ThemeProvider';
 import { Toaster } from '@/components/ui/sonner';
 import QueryProvider from '@/providers/QueryProvider';
+import NextTopLoader from 'nextjs-toploader';
+// import 'nprogress/nprogress.css';
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -42,6 +44,15 @@ export default function RootLayout({
             >
               <Navbar />
               <main className='flex-1 flex flex-col px-2 md:px-4'>
+                <NextTopLoader
+                  color='#2563eb'
+                  initialPosition={0.08}
+                  crawlSpeed={200}
+                  height={3}
+                  showSpinner={false}
+                  easing='ease'
+                  speed={200}
+                />
                 {children}
               </main>
               <footer>Footer placeholder</footer>

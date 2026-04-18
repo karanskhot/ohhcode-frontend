@@ -79,7 +79,7 @@ export const snippetService = {
     snippetId: string;
   }) => {
     const response = await fetch(
-      `http://localhost:8080/api/v1/snippets/${snippetId}`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/snippets/${snippetId}`,
       {
         method: 'PATCH',
 
