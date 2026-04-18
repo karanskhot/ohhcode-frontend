@@ -35,6 +35,7 @@ const LoginForm = () => {
       toast.success('Logged in successfully.');
       reset();
       router.refresh();
+      router.push('/my-snippets');
     } catch (err: unknown) {
       let errorMessage = 'Invalid username or password';
       if (err instanceof Error) {
