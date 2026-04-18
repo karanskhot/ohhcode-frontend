@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const proxy = (request: NextRequest) => {
   const token = request.cookies.get('token')?.value;
+  console.log('TOKEN IN PROXY', token);
   const pathName = request.nextUrl.pathname;
   const isAuthRoute = pathName.startsWith('/get-started');
   const isHomeRoute = pathName === '/';
