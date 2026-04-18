@@ -1,13 +1,22 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
   reactCompiler: false,
+  async rewrites() {
+    return [
+      {
+        // Jab bhi frontend /api/v1/... call karega
+        source: '/api/v1/:path*',
+        // Toh Vercel usey chupke se Railway pe bhej dega
+        destination: 'https://railway.app*',
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'res.cloudinary.com',
+        hostname: '://cloudinary.com',
       },
     ],
   },
