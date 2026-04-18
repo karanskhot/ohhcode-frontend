@@ -11,4 +11,4 @@ export const LoginSchema = z.object({
     ),
 });
 
-export type LoginInputType = z.infer<typeof LoginSchema>;
+export type LoginRequestType = z.infer<typeof LoginSchema>;
